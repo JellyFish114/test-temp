@@ -1,4 +1,4 @@
-package sftp.model.dto;
+package model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -12,8 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonPropertyOrder({"billdocAaxId", "billPeriodEnd", "customerId", "countryCode", "amount", "billableItemId", "amountPerCustomerRegion", "salesPartnerAaxId",
-        "customerAaxId", "orderableProductName", "baseProductName", "billDocumentnetAmount"})
+@JsonPropertyOrder({"billPeriodEnd", "billdocAaxId", "salesPartnerAaxId", "customerAaxId", "customerId", "orderableProductName", "baseProductName",
+        "countryCode", "billableItemId", "billDocumentnetAmount", "amount", "amountPerCustomerRegion",
+})
 public class BillableItemCsvDto {
 
     @JsonProperty("Billdoc aax id")
@@ -35,7 +36,7 @@ public class BillableItemCsvDto {
     private String billableItemId;
 
     @JsonProperty("Amount perCustomer / region")
-    private Double amountPerCustomerRegion;
+    private String amountPerCustomerRegion;
 
     @JsonProperty("Sales partner aax id")
     private String salesPartnerAaxId;
@@ -50,7 +51,7 @@ public class BillableItemCsvDto {
     private String baseProductName;
 
     @JsonProperty("Bill Documentnet amount")
-    private Double billDocumentnetAmount;
+    private String billDocumentnetAmount;
 
     @JsonIgnore
     private String csvSliceName;

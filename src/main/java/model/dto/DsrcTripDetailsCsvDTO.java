@@ -1,4 +1,4 @@
-package sftp.model.dto;
+package model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,7 +10,8 @@ import lombok.Data;
 @JsonPropertyOrder({"billRunId", "billableItemId", "billingPeriodStartDate", "billingPeriodEndDate",
         "serviceCountry", "baseProductId", "baseProductName", "businessPartnerId", "customerNo", "externalBillingReference", "lpn",
         "pan", "transactionId", "entryDate", "entryTime", "entryNumber", "entryName", "description", "exitDate", "exitTime", "exitNumber",
-        "exitName", "vatRate", "currency", "chargedAmountNet", "chargedAmountGross"})
+        "exitName", "vatRate", "currency", "chargedAmountNet", "chargedAmountGross", "billRunId2"})
+
 public class DsrcTripDetailsCsvDTO {
 
     @JsonProperty("Bill RunID")
@@ -91,6 +92,6 @@ public class DsrcTripDetailsCsvDTO {
     @JsonProperty("Chargedamount (gross)")
     private String chargedAmountGross;
 
-    @JsonIgnore
-    private String csvSliceName;
+    @JsonProperty("Bill RunID2")
+    private String billRunId2;
 }
