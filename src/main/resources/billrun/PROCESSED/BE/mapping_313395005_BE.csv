@@ -1,0 +1,4 @@
+"DocumentName"|"Venice Invoice No"|"AAX Customer ID"|"Bill document number"|"Service Country"|"Invoice Issue Date"|"Billing Period from"|"Billing Period to"|"Sales Partner ID"|"Payment Reference"|"Total Net"|"Total Gross"|"Currency"
+"I21009122.pdf"|"BE21_209121"|"SP_CFS_DEMO_3"|"313395005"|"BE"|"04/11/2021"|"16/10/2021"|"31/10/2021"|"1800009708"|"313395005BE"|"292,50"|"353,93"|"EUR"
+"I21009201.pdf"|"BE21_209200"|"Three Three"|"313395005"|"BE"|"04/11/2021"|"16/10/2021"|"31/10/2021"|"1800009708"|"313395005BE"|"23,40"|"28,31"|"EUR"
+"I21009238.pdf"|"BE21_209237"|"One One"|"313395005"|"BE"|"04/11/2021"|"16/10/2021"|"31/10/2021"|"1800009708"|"313395005BE"|"327,60"|"396,40"|"EUR"
