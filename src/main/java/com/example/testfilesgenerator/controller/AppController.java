@@ -24,8 +24,7 @@ import java.util.stream.Stream;
 public class AppController {
     private final ICsvProcessor
             paymentRequestsProcessor,
-            tripDetailsProcessor;
-    private final DsrcInvProcessor dsrcInvProcessor;
+            tripDetailsProcessor,dsrcInvProcessor;
 
     @Value("${todo_dir}")
     private String TODO_DIR;
@@ -33,18 +32,15 @@ public class AppController {
     private String MAPPING_PATH;
     @Value("${processed_dir}")
     private String PROCESSED_DIR;
-    @Value("${pdf_builder_url}")
-    private String PDF_BUILDER_URL;
     @Value("${allowed_directories}")
     private String ALLOWED_DIR;
-    @Value("${dsrc_template}")
-    private String DSRC_TEMPLATE;
+
 
     @Autowired
     public AppController(DsrcInvProcessor dsrcInvProcessor, PaymentRequestsProcessor paymentRequestsProcessor, TripDetailsProcessor tripDetailsProcessor) {
-        this.dsrcInvProcessor = new DsrcInvProcessor();
-        this.paymentRequestsProcessor = new PaymentRequestsProcessor();
-        this.tripDetailsProcessor = new TripDetailsProcessor();
+        this.dsrcInvProcessor = dsrcInvProcessor;
+        this.paymentRequestsProcessor = paymentRequestsProcessor;
+        this.tripDetailsProcessor = tripDetailsProcessor;
     }
 
     @Bean
@@ -71,7 +67,7 @@ public class AppController {
                 tripDetailsProcessor.processCsv(TODO_DIR + "TRIP_DETAILS", MAPPING_PATH, PROCESSED_DIR + "TRIP_DETAILS/");
 
             if (ALLOWED_DIR.contains(folderName))
-                dsrcInvProcessor.processCsv(TODO_DIR + folderName, MAPPING_PATH, PROCESSED_DIR + folderName + "/", PDF_BUILDER_URL, DSRC_TEMPLATE);
+                dsrcInvProcessor.processCsv(TODO_DIR + folderName, MAPPING_PATH, PROCESSED_DIR + folderName + "/");
 
         }
 

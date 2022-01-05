@@ -17,42 +17,17 @@ import lombok.NoArgsConstructor;
 })
 public class BillableItemCsvDto {
 
-    @JsonProperty("Billdoc aax id")
     private String billdocAaxId;
-
-    @JsonProperty("Bill period end")
     private String billPeriodEnd;
-
-    @JsonProperty("Customer id")
     private String customerId;
-
-    @JsonProperty("Country code")
     private String countryCode;
-
-    @JsonProperty("Amount")
     private String amount;
-
-    @JsonProperty("Billable item id")
     private String billableItemId;
-
-    @JsonProperty("Amount perCustomer / region")
     private String amountPerCustomerRegion;
-
-    @JsonProperty("Sales partner aax id")
     private String salesPartnerAaxId;
-
-    @JsonProperty("Customer aax id")
     private String customerAaxId;
-
-    @JsonProperty("Orderable product name")
     private String orderableProductName;
-
-    @JsonProperty("Base product name")
     private String baseProductName;
-
-    @JsonProperty("Bill Documentnet amount")
     private String billDocumentnetAmount;
 
-    @JsonIgnore
-    private String csvSliceName;
 }

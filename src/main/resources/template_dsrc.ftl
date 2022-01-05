@@ -30,16 +30,16 @@
     <div class="container">
       <h1>${documentName}</h1>
       <div class="general_info">
-        <p>Service country : ${serviceCountry}</p>
+        <p>Service country : ${serviceCountry}}</p>
         <p>Salespartner ID ${salesPartnerId}</p>
-        <p>Invoice Issue Date: ${Invoice Issue Date}</p>
-        <p>Venice Invoice No: ${Venice Invoice No}</p>
+        <p>Invoice Issue Date: ${invoiceIssueDate}</p>
+        <p>Venice Invoice No: ${veniceInvoiceNumber}</p>
       </div>
       <div class="customer_info">
         <p>Your reference ${aaxCustomerId}</p>
         <p>Billing Period ${billingPeriodFrom} - ${billingPeriodTo}</p>
-        <p>Bill document number ${Bill document number}</p>
-        <p>Payement reference ${Payment Reference}</p>
+        <p>Bill document number ${billDocNumber}</p>
+        <p>Payement reference ${paymentReference}</p>
       </div>
 
       <table>
@@ -50,9 +50,9 @@
         </tr>
 
         <tr>
-          <td>${Total Net}</td>
-          <td>${Total Gross}</td>
-          <td>${Cyrrency}</td>
+          <td>${totalNet}</td>
+          <td>${totalGross}</td>
+          <td>${currency}</td>
         </tr>
 
         <tr></tr>

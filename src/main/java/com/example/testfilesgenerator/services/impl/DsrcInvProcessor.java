@@ -2,32 +2,45 @@ package com.example.testfilesgenerator.services.impl;
 
 import com.example.testfilesgenerator.dto.CustomerMappingCsvDTO;
 import com.example.testfilesgenerator.dto.DsrcInvCsvDTO;
+import com.example.testfilesgenerator.services.ICsvProcessor;
 import com.example.testfilesgenerator.utils.Utility;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
-public class DsrcInvProcessor  {
+public class DsrcInvProcessor implements ICsvProcessor {
 
-    public <T> List<T> processCsv(String inputDir, String mappingPath, String outputDir, String pdf_builder_url, String template) {
-        System.out.println(pdf_builder_url);
+    @Value("${dsrc_template}")
+    private String DSRC_TEMPLATE;
+    @Value("${pdf_builder_url}")
+    private String PDF_BUILDER_URL;
 
+    @Value("${app.csvConfig.columnSeparator}")
+    private char COLUMN_SEPARATOR;
+    @Value("${app.csvConfig.quoteChar}")
+    private char QUOTE_CHAR;
+
+    @Override
+    public <T> List<T> processCsv(String inputDir, String mappingPath, String outputDir) {
+        System.out.println("\nProcessing Invoices csvs ...");
         List<File> filesToProcess = Utility.getFilesFromDir(inputDir);
-        List<CustomerMappingCsvDTO> mappingList = Utility.getDtoFromCsv(CustomerMappingCsvDTO.class, new File(mappingPath));
+        List<CustomerMappingCsvDTO> mappingList = Utility.getDtoFromCsv(CustomerMappingCsvDTO.class, new File(mappingPath), COLUMN_SEPARATOR, QUOTE_CHAR);
 
         Utility.createFolderIfNotPresent(outputDir);
 
         List<DsrcInvCsvDTO> processedDsrcDto = null;
 
         for (File file : filesToProcess) {
-            List<DsrcInvCsvDTO> dsrcDTO = Utility.getDtoFromCsv(DsrcInvCsvDTO.class, file);
+            List<DsrcInvCsvDTO> dsrcDTO = Utility.getDtoFromCsv(DsrcInvCsvDTO.class, file, COLUMN_SEPARATOR, QUOTE_CHAR);
 
             int sizeBeforeProcessing = dsrcDTO.size();
 
-            System.out.println("processing file: " + file.getName());
+            System.out.println("Processing file: " + file.getName());
 
             processedDsrcDto = dsrcDTO.stream().filter((dsrc) -> {
                 // 1. replace sales partner id (EPR<->EC1)
@@ -42,15 +55,15 @@ public class DsrcInvProcessor  {
                 }
                 // 3. if customer number (customer id) is not found on the ec1-epr-customer-mapping delete the line
                 return false;
-            }).toList();
+            }).collect(Collectors.toList());
 
-            System.out.println("Finished.\n Total lines: " + sizeBeforeProcessing + "\n Lines after processing: " + processedDsrcDto.size() + "\n");
+            System.out.println("Done. Total lines: " + sizeBeforeProcessing + ", lines after processing: " + processedDsrcDto.size() + "\n");
 
             // 4. generate the updated mapping_<billrunid>_<serviceCountry>.csv
             Utility.dtosToCsv(processedDsrcDto, outputDir + "" + file.getName());
 
             // 5. generate the pdfs
-            Utility.getPdfsFromDtos(pdf_builder_url, outputDir, processedDsrcDto, template);
+            // Utility.getPdfsFromDtos(PDF_BUILDER_URL, outputDir, processedDsrcDto, DSRC_TEMPLATE);
 
         }
 

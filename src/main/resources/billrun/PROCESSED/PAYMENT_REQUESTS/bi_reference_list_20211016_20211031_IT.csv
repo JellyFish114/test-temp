@@ -1,4 +1,4 @@
-"Bill period end"|"Billdoc aax id"|"Sales partner aax id"|"Customer aax id"|"Customer id"|"Orderable product name"|"Base product name"|"Country code"|"Billable item id"|"Bill Documentnet amount"|"Amount"|"Amount perCustomer / region"
+"billPeriodEnd"|"billdocAaxId"|"salesPartnerAaxId"|"customerAaxId"|"customerId"|"orderableProductName"|"baseProductName"|"countryCode"|"billableItemId"|"billDocumentnetAmount"|"amount"|"amountPerCustomerRegion"
 "31/10/2021"|"313394528"|"1800000801"|"2005273016"|"Example Custtwo"|"Toll Italy"|"Toll BRENNERO"|"IT"|"2021-0000000000303393"|"11293902.56"|"20.66"|"286.15"
 "31/10/2021"|"313394528"|"1800000801"|"2005273016"|"Example Custtwo"|"Toll Italy"|"Toll BREBEMI"|"IT"|"2021-0000000000303394"|"11293902.56"|"25.08"|"286.15"
 "31/10/2021"|"313394528"|"1800000801"|"2005273016"|"Example Custtwo"|"Toll Italy"|"Toll ASPI"|"IT"|"2021-0000000000305021"|"11293902.56"|"31.23"|"286.15"

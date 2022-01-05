@@ -1,4 +1,4 @@
-"Bill period end"|"Billdoc aax id"|"Sales partner aax id"|"Customer aax id"|"Customer id"|"Orderable product name"|"Base product name"|"Country code"|"Billable item id"|"Bill Documentnet amount"|"Amount"|"Amount perCustomer / region"
+"billPeriodEnd"|"billdocAaxId"|"salesPartnerAaxId"|"customerAaxId"|"customerId"|"orderableProductName"|"baseProductName"|"countryCode"|"billableItemId"|"billDocumentnetAmount"|"amount"|"amountPerCustomerRegion"
 "31/10/2021"|"313401335"|"1800008521"|"2023537385"|"Seven RegKunde"|"Austrian Toll"|"Toll ASFiNAG"|"AT"|"2021-0000000004621149"|"338433758.37"|".32"|"50471.45"
 "31/10/2021"|"313401335"|"1800008521"|"2023537385"|"Seven RegKunde"|"Austrian Toll"|"Toll ASFiNAG"|"AT"|"2021-0000000004621150"|"338433758.37"|"131.64"|"50471.45"
 "31/10/2021"|"313401335"|"1800008521"|"2023537385"|"Seven RegKunde"|"Austrian Toll"|"Toll ASFiNAG"|"AT"|"2021-0000000004621152"|"338433758.37"|".9"|"50471.45"

@@ -1,4 +1,4 @@
-"DocumentName"|"Venice Invoice No"|"AAX Customer ID"|"Bill document number"|"Service Country"|"Invoice Issue Date"|"Billing Period from"|"Billing Period to"|"Sales Partner ID"|"Payment Reference"|"Total Net"|"Total Gross"|"Currency"
+"documentName"|"veniceInvoiceNumber"|"aaxCustomerId"|"billDocNumber"|"serviceCountry"|"invoiceIssueDate"|"billingPeriodFrom"|"billingPeriodTo"|"salesPartnerId"|"paymentReference"|"totalNet"|"totalGross"|"currency"
 "I21009134.pdf"|"BE21_209133"|"Testkunde Thomas"|"313401335"|"BE"|"04/11/2021"|"16/10/2021"|"31/10/2021"|"1800008521"|"313401335BE"|"58,50"|"70,79"|"EUR"
 "I21009140.pdf"|"BE21_209139"|"Dora TheSecond"|"313401335"|"BE"|"04/11/2021"|"16/10/2021"|"31/10/2021"|"1800008521"|"313401335BE"|"1380,66"|"1670,60"|"EUR"
 "I21009163.pdf"|"BE21_209162"|"Oliver BPAgent"|"313401335"|"BE"|"04/11/2021"|"16/10/2021"|"31/10/2021"|"1800008521"|"313401335BE"|"11,70"|"14,16"|"EUR"

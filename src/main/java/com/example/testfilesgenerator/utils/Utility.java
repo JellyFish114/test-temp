@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.SequenceWriter;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
@@ -23,13 +24,14 @@ import java.util.stream.Stream;
 
 public class Utility {
 
-    public static <T> List<T> getDtoFromCsv(Class<?> type, File file) {
+    public static <T> List<T> getDtoFromCsv(Class<?> type, File file, char columnSeparator, char quoteChar) {
         CsvMapper csvMapper = new CsvMapper();
 
         CsvSchema csvSchema = csvMapper
                 .typedSchemaFor(type)
                 .withHeader()
-                .withColumnSeparator('|')
+                .withQuoteChar(quoteChar)
+                .withColumnSeparator(columnSeparator)
                 .withComments();
 
         List<T> dtos = new ArrayList<>();
@@ -100,6 +102,8 @@ public class Utility {
             temp.setTemplate(template);
             temp.setData(dto);
 
+            System.err.println(temp);
+
             ResponseEntity<byte[]> response = new RestTemplate().postForEntity(
                     url,
                     Collections.singletonList(temp),
@@ -113,7 +117,7 @@ public class Utility {
                     e.printStackTrace();
                 }
             } else {
-                System.err.println("Cannot creat PDF, response is empty !");
+                System.err.println("Cannot create PDF, response is empty !");
             }
 
         }

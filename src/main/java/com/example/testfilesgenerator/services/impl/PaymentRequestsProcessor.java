@@ -4,32 +4,39 @@ import com.example.testfilesgenerator.dto.BillableItemCsvDto;
 import com.example.testfilesgenerator.dto.CustomerMappingCsvDTO;
 import com.example.testfilesgenerator.services.ICsvProcessor;
 import com.example.testfilesgenerator.utils.Utility;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class PaymentRequestsProcessor implements ICsvProcessor {
+    @Value("${app.csvConfig.columnSeparator}")
+    private char COLUMN_SEPARATOR;
+    @Value("${app.csvConfig.quoteChar}")
+    private char QUOTE_CHAR;
+
     @Override
     public List processCsv(String inputDir, String mappingPath, String outputDir) {
-        List<File> filesToProcess = Utility.getFilesFromDir(inputDir);
-        List<CustomerMappingCsvDTO> mappingList = Utility.getDtoFromCsv(CustomerMappingCsvDTO.class, new File(mappingPath));
+        System.out.println("\nProcessing Payment requests csvs ...");
 
-        File theDir = new File(outputDir);
-        if (!theDir.exists()){
-            theDir.mkdirs();
-        }
+        List<File> filesToProcess = Utility.getFilesFromDir(inputDir);
+        List<CustomerMappingCsvDTO> mappingList = Utility.getDtoFromCsv(CustomerMappingCsvDTO.class, new File(mappingPath),COLUMN_SEPARATOR,QUOTE_CHAR);
+
+        Utility.createFolderIfNotPresent(outputDir);
 
         for (File file : filesToProcess) {
-            System.out.println("processing file: " + file.getName());
+            System.out.println("Processing file: " + file.getName());
 
-            List<BillableItemCsvDto> paymentRequestsDTO = Utility.getDtoFromCsv(BillableItemCsvDto.class, file);
-            System.out.println(paymentRequestsDTO.size());
+            List<BillableItemCsvDto> paymentRequestsDTO = Utility.getDtoFromCsv(BillableItemCsvDto.class, file,COLUMN_SEPARATOR,QUOTE_CHAR);
 
+            int sizeBeforeProcessing = paymentRequestsDTO.size();
 
             List<BillableItemCsvDto> processedPaymentRequestsDTO = paymentRequestsDTO.stream().filter((payment) -> {
+
                 Optional<CustomerMappingCsvDTO> ec1SpId = mappingList.stream().filter((el) -> el.getEprSpId().equals(payment.getSalesPartnerAaxId())).findFirst();
                 ec1SpId.ifPresent(customerMappingCsvDTO -> payment.setSalesPartnerAaxId(customerMappingCsvDTO.getEc1SpId()));
 
@@ -39,9 +46,11 @@ public class PaymentRequestsProcessor implements ICsvProcessor {
                     return true;
                 }
                 return false;
-            }).toList();
+
+            }).collect(Collectors.toList());
 
             Utility.dtosToCsv(processedPaymentRequestsDTO, outputDir + "" + file.getName());
+            System.out.println("Done. Total lines: " + sizeBeforeProcessing + ", lines after processing: " + processedPaymentRequestsDTO.size() + "\n");
 
         }
 
