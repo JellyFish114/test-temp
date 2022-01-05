@@ -2,7 +2,9 @@ package com.example.testfilesgenerator.utils;
 
 import com.example.testfilesgenerator.dto.DsrcInvCsvDTO;
 import com.example.testfilesgenerator.dto.PdfBuilderRequestDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.MappingIterator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SequenceWriter;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
@@ -101,8 +103,6 @@ public class Utility {
             PdfBuilderRequestDTO temp = new PdfBuilderRequestDTO();
             temp.setTemplate(template);
             temp.setData(dto);
-
-            System.err.println(temp);
 
             ResponseEntity<byte[]> response = new RestTemplate().postForEntity(
                     url,

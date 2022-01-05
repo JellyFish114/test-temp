@@ -1,10 +1,7 @@
-# Getting Started
+# test-file-generator
 
 ### Reference Documentation
 
-For further reference, please consider the following sections:
+Project generating testing files for d-hub.
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.6.2/maven-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.6.2/maven-plugin/reference/html/#build-image)
-
+If you want to add more country in the billrun, modify "allowed_directories" in the application.properties.
