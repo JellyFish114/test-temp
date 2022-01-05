@@ -63,7 +63,9 @@ public class DsrcInvProcessor implements ICsvProcessor {
             Utility.dtosToCsv(processedDsrcDto, outputDir + "" + file.getName());
 
             // 5. generate the pdfs
-            // Utility.getPdfsFromDtos(PDF_BUILDER_URL, outputDir, processedDsrcDto, DSRC_TEMPLATE);
+            Utility.getPdfsFromDtos(PDF_BUILDER_URL, outputDir, processedDsrcDto, DSRC_TEMPLATE);
+
+            System.out.println("PDFs created.");
 
         }
 

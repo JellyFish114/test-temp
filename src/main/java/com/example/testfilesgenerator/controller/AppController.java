@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -24,7 +25,7 @@ import java.util.stream.Stream;
 public class AppController {
     private final ICsvProcessor
             paymentRequestsProcessor,
-            tripDetailsProcessor,dsrcInvProcessor;
+            tripDetailsProcessor, dsrcInvProcessor;
 
     @Value("${todo_dir}")
     private String TODO_DIR;
@@ -45,6 +46,21 @@ public class AppController {
 
     @Bean
     public <T> void processCsvs() {
+
+        Path processedDir = Paths.get(PROCESSED_DIR);
+
+        try (Stream<Path> paths = Files.walk(processedDir)) {
+            List<Path> pathsToDelete = paths.sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+
+            for (Path path : pathsToDelete) {
+                if (!path.getFileName().toString().equals(processedDir.getFileName().toString())) {
+                    Files.deleteIfExists(path);
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         List<File> foldersToProcess = new ArrayList<>();
 

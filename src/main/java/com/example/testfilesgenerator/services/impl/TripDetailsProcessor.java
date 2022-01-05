@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class TripDetailsProcessor implements ICsvProcessor {
+
     @Value("${app.csvConfig.columnSeparator}")
     private char COLUMN_SEPARATOR;
     @Value("${app.csvConfig.quoteChar}")
