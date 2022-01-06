@@ -30,7 +30,7 @@
     <div class="container">
       <h1>${documentName}</h1>
       <div class="general_info">
-        <p>Service country : ${serviceCountry}}</p>
+        <p>Service country : ${serviceCountry}</p>
         <p>Salespartner ID ${salesPartnerId}</p>
         <p>Invoice Issue Date: ${invoiceIssueDate}</p>
         <p>Venice Invoice No: ${veniceInvoiceNumber}</p>

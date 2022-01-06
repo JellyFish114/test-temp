@@ -19,7 +19,8 @@ public class DsrcInvProcessor implements ICsvProcessor {
     private String DSRC_TEMPLATE;
     @Value("${pdf_builder_url}")
     private String PDF_BUILDER_URL;
-
+    @Value("${pdf_builder_url_dvi}")
+    private String PDF_BUILDER_URL_DVI;
     @Value("${app.csvConfig.columnSeparator}")
     private char COLUMN_SEPARATOR;
     @Value("${app.csvConfig.quoteChar}")

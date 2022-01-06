@@ -1,24 +1,19 @@
 package com.example.testfilesgenerator.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonPropertyOrder({"Billrun ID2","BillableItem ID", "Billing PeriodStart Date", "Billing PeriodEnd Date", "ServiceCountry", "Baseproduct ID",
+@JsonPropertyOrder({"BillableItem ID", "Billing PeriodStart Date", "Billing PeriodEnd Date", "ServiceCountry", "Baseproduct ID",
         "Baseproduct Name", "BusinessPartner ID", "CustomerNo", "ExternalBilling Reference", "LPN", "PAN", "Transaction ID", "Entry Date", "Entry Time", "EntryNumber", "EntryName",
         "Description", "Exit Date" ,"Exit Time" ,"Exit Number", "Exit Name", "VAT Rate", "Currency", "Chargedamount (net)", "Chargedamount (gross)", "Bill RunID"
 })
-public class DsrcTripDetailsCsvDTO {
-    @JsonProperty("Billrun ID2")
-    private String billRunId2;
+public class DsrcTripDetailsCsvMapper {
     @JsonProperty("BillableItem ID")
     private String billableItemId;
     @JsonProperty("Billing PeriodStart Date")

@@ -1,15 +1,11 @@
 package com.example.testfilesgenerator.utils;
 
-import com.example.testfilesgenerator.dto.DsrcInvCsvDTO;
-import com.example.testfilesgenerator.dto.PdfBuilderRequestDTO;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.example.testfilesgenerator.dto.*;
 import com.fasterxml.jackson.databind.MappingIterator;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SequenceWriter;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
@@ -28,10 +24,8 @@ public class Utility {
 
     public static <T> List<T> getDtoFromCsv(Class<?> type, File file, char columnSeparator, char quoteChar) {
         CsvMapper csvMapper = new CsvMapper();
-
         CsvSchema csvSchema = csvMapper
                 .typedSchemaFor(type)
-                .withHeader()
                 .withQuoteChar(quoteChar)
                 .withColumnSeparator(columnSeparator)
                 .withComments();
@@ -122,5 +116,6 @@ public class Utility {
 
         }
     }
+
 }
 

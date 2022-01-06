@@ -1,13 +1,16 @@
 package com.example.testfilesgenerator.services.impl;
 
-import com.example.testfilesgenerator.dto.CustomerMappingCsvDTO;
-import com.example.testfilesgenerator.dto.DsrcTripDetailsCsvDTO;
+import com.example.testfilesgenerator.dto.*;
 import com.example.testfilesgenerator.utils.Utility;
 import com.example.testfilesgenerator.services.ICsvProcessor;
+import com.fasterxml.jackson.databind.SequenceWriter;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,7 +39,6 @@ public class TripDetailsProcessor implements ICsvProcessor {
 
             int sizeBeforeProcessing = tripDetailsDTO.size();
 
-
             List<DsrcTripDetailsCsvDTO> processedTripDetailsDTO = tripDetailsDTO.stream().filter((tripdetails) -> {
 
                 Optional<CustomerMappingCsvDTO> ec1SpId = mappingList.stream().filter((el) -> el.getEprSpId().equals(tripdetails.getBusinessPartnerId())).findFirst();
@@ -51,8 +53,28 @@ public class TripDetailsProcessor implements ICsvProcessor {
 
             }).collect(Collectors.toList());
 
-            Utility.dtosToCsv(processedTripDetailsDTO, outputDir + "" + file.getName());
-            
+            // Remove first column Billrun ID2 and write to CSV using a mixin and mapper
+            CsvMapper csvMapper = new CsvMapper();
+
+            csvMapper.addMixIn(DsrcTripDetailsCsvDTO.class, DsrcTripDetailsCsvMixin.class);
+
+            CsvSchema csvSchema = csvMapper
+                    .typedSchemaFor(DsrcTripDetailsCsvMapper.class).withStrictHeaders(true)
+                    .withHeader()
+                    .withColumnSeparator(COLUMN_SEPARATOR)
+                    .withQuoteChar(QUOTE_CHAR)
+                    .withComments();
+
+            try {
+                SequenceWriter dtoItr = csvMapper.writerWithSchemaFor(DsrcTripDetailsCsvDTO.class)
+                        .with(csvSchema)
+                        .writeValues(new File(outputDir + file.getName()));
+
+                dtoItr.writeAll(processedTripDetailsDTO);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             System.out.println("Done. Total lines: " + sizeBeforeProcessing + ", lines after processing: " + processedTripDetailsDTO.size() + "\n");
 
         }
