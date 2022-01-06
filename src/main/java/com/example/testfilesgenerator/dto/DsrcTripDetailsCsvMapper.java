@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
         "Baseproduct Name", "BusinessPartner ID", "CustomerNo", "ExternalBilling Reference", "LPN", "PAN", "Transaction ID", "Entry Date", "Entry Time", "EntryNumber", "EntryName",
         "Description", "Exit Date" ,"Exit Time" ,"Exit Number", "Exit Name", "VAT Rate", "Currency", "Chargedamount (net)", "Chargedamount (gross)", "Bill RunID"
 })
+
 public class DsrcTripDetailsCsvMapper {
     @JsonProperty("BillableItem ID")
     private String billableItemId;
@@ -66,5 +67,4 @@ public class DsrcTripDetailsCsvMapper {
     private String chargedAmountGross;
     @JsonProperty("Bill RunID")
     private String billRunId;
-
 }

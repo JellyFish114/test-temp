@@ -27,9 +27,9 @@ public class TripDetailsProcessor implements ICsvProcessor {
     public List processCsv(String inputDir, String mappingPath, String outputDir) {
         System.out.println("\nProcessing Trip details csvs ...");
 
-        List<File> filesToProcess = Utility.getFilesFromDir(inputDir);
+        List<File> filesToProcess = Utility.getCsvsFromDir(inputDir);
         List<CustomerMappingCsvDTO> mappingList = Utility.getDtoFromCsv(CustomerMappingCsvDTO.class, new File(mappingPath), COLUMN_SEPARATOR, QUOTE_CHAR);
-
+        System.out.println(mappingList.get(0));
         Utility.createFolderIfNotPresent(outputDir);
 
         for (File file : filesToProcess) {
@@ -59,7 +59,7 @@ public class TripDetailsProcessor implements ICsvProcessor {
             csvMapper.addMixIn(DsrcTripDetailsCsvDTO.class, DsrcTripDetailsCsvMixin.class);
 
             CsvSchema csvSchema = csvMapper
-                    .typedSchemaFor(DsrcTripDetailsCsvMapper.class).withStrictHeaders(true)
+                    .typedSchemaFor(DsrcTripDetailsCsvMapper.class)//.withStrictHeaders(true)
                     .withHeader()
                     .withColumnSeparator(COLUMN_SEPARATOR)
                     .withQuoteChar(QUOTE_CHAR)

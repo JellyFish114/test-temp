@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -24,19 +25,14 @@ public class Utility {
 
     public static <T> List<T> getDtoFromCsv(Class<?> type, File file, char columnSeparator, char quoteChar) {
         CsvMapper csvMapper = new CsvMapper();
-        CsvSchema csvSchema = csvMapper
-                .typedSchemaFor(type)
+        CsvSchema csvSchema = csvMapper.typedSchemaFor(type)
                 .withQuoteChar(quoteChar)
-                .withColumnSeparator(columnSeparator)
-                .withComments();
+                .withColumnSeparator(columnSeparator).withComments();
 
         List<T> dtos = new ArrayList<>();
 
         try {
-            MappingIterator<T> dtoItr = csvMapper
-                    .readerWithTypedSchemaFor(type)
-                    .with(csvSchema)
-                    .readValues(file);
+            MappingIterator<T> dtoItr = csvMapper.readerWithTypedSchemaFor(type).with(csvSchema).readValues(file);
 
             dtos = dtoItr.readAll();
         } catch (IOException e) {
@@ -46,14 +42,13 @@ public class Utility {
         return dtos;
     }
 
+
     public static List<File> getFilesFromDir(String dirName) {
 
         List<File> result = new ArrayList<>();
 
         try (Stream<Path> paths = Files.walk(Paths.get(dirName))) {
-            result = paths
-                    .filter(Files::isRegularFile)
-                    .map(Path::toFile).collect(Collectors.toList());
+            result = paths.filter(Files::isRegularFile).map(Path::toFile).collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,21 +56,37 @@ public class Utility {
         return result;
     }
 
+    public static Optional<String> getFileExtension(String filename) {
+        return Optional.ofNullable(filename).filter(f -> f.contains(".")).map(f -> f.substring(filename.lastIndexOf(".") + 1));
+    }
+
+    public static List<File> getCsvsFromDir(String dirName) {
+
+        List<File> result = new ArrayList<>();
+
+        try (Stream<Path> paths = Files.walk(Paths.get(dirName))) {
+            result = paths.filter(Files::isRegularFile).map(Path::toFile).collect(Collectors.toList());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result.stream().filter(e -> {
+            if (getFileExtension(e.getName()).isPresent()) {
+                return getFileExtension(e.getName()).get().equals("csv");
+            }
+            return false;
+        }).collect(Collectors.toList());
+    }
+
     public static void dtosToCsv(List<?> dtos, String pathOutput) {
 
         CsvMapper csvMapper = new CsvMapper();
         Class<?> type = dtos.get(0).getClass();
 
-        CsvSchema csvSchema = csvMapper
-                .typedSchemaFor(type)
-                .withHeader()
-                .withColumnSeparator('|')
-                .withComments();
+        CsvSchema csvSchema = csvMapper.typedSchemaFor(type).withHeader().withColumnSeparator('|').withComments();
 
         try {
-            SequenceWriter dtoItr = csvMapper.writerWithSchemaFor(type)
-                    .with(csvSchema)
-                    .writeValues(new File(pathOutput));
+            SequenceWriter dtoItr = csvMapper.writerWithSchemaFor(type).with(csvSchema).writeValues(new File(pathOutput));
 
             dtoItr.writeAll(dtos);
         } catch (IOException e) {
@@ -98,11 +109,7 @@ public class Utility {
             temp.setTemplate(template);
             temp.setData(dto);
 
-            ResponseEntity<byte[]> response = new RestTemplate().postForEntity(
-                    url,
-                    Collections.singletonList(temp),
-                    byte[].class
-            );
+            ResponseEntity<byte[]> response = new RestTemplate().postForEntity(url, Collections.singletonList(temp), byte[].class);
 
             if (response.getBody() != null) {
                 try (FileOutputStream stream = new FileOutputStream(outputDir + dto.getDocumentName())) {

@@ -29,7 +29,8 @@ public class DsrcInvProcessor implements ICsvProcessor {
     @Override
     public <T> List<T> processCsv(String inputDir, String mappingPath, String outputDir) {
         System.out.println("\nProcessing Invoices csvs ...");
-        List<File> filesToProcess = Utility.getFilesFromDir(inputDir);
+
+        List<File> filesToProcess = Utility.getCsvsFromDir(inputDir);
         List<CustomerMappingCsvDTO> mappingList = Utility.getDtoFromCsv(CustomerMappingCsvDTO.class, new File(mappingPath), COLUMN_SEPARATOR, QUOTE_CHAR);
 
         Utility.createFolderIfNotPresent(outputDir);
@@ -60,12 +61,14 @@ public class DsrcInvProcessor implements ICsvProcessor {
 
             System.out.println("Done. Total lines: " + sizeBeforeProcessing + ", lines after processing: " + processedDsrcDto.size() + "\n");
 
-            // 4. generate the updated mapping_<billrunid>_<serviceCountry>.csv
-            Utility.dtosToCsv(processedDsrcDto, outputDir + "" + file.getName());
+
 
             // 5. generate the pdfs
-            Utility.getPdfsFromDtos(PDF_BUILDER_URL, outputDir, processedDsrcDto, DSRC_TEMPLATE);
-
+            if (!processedDsrcDto.isEmpty()) {
+                // 4. generate the updated mapping_<billrunid>_<serviceCountry>.csv
+                Utility.dtosToCsv(processedDsrcDto, outputDir + "" + file.getName());
+                Utility.getPdfsFromDtos(PDF_BUILDER_URL, outputDir, processedDsrcDto, DSRC_TEMPLATE);
+            }
             System.out.println("PDFs created.");
 
         }

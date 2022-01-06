@@ -23,7 +23,7 @@ public class PaymentRequestsProcessor implements ICsvProcessor {
     public List processCsv(String inputDir, String mappingPath, String outputDir) {
         System.out.println("\nProcessing Payment requests csvs ...");
 
-        List<File> filesToProcess = Utility.getFilesFromDir(inputDir);
+        List<File> filesToProcess = Utility.getCsvsFromDir(inputDir);
         List<CustomerMappingCsvDTO> mappingList = Utility.getDtoFromCsv(CustomerMappingCsvDTO.class, new File(mappingPath),COLUMN_SEPARATOR,QUOTE_CHAR);
 
         Utility.createFolderIfNotPresent(outputDir);
