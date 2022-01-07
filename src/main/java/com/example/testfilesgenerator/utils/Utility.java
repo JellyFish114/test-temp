@@ -6,11 +6,11 @@ import com.fasterxml.jackson.databind.SequenceWriter;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,22 +24,24 @@ import java.util.stream.Stream;
 public class Utility {
 
     public static <T> List<T> getDtoFromCsv(Class<?> type, File file, char columnSeparator, char quoteChar) {
-        CsvMapper csvMapper = new CsvMapper();
-        CsvSchema csvSchema = csvMapper.typedSchemaFor(type)
-                .withQuoteChar(quoteChar)
-                .withColumnSeparator(columnSeparator).withComments();
+        if (file.exists()) {
+            CsvMapper csvMapper = new CsvMapper();
+            CsvSchema csvSchema = csvMapper.typedSchemaFor(type)
+                    .withQuoteChar(quoteChar)
+                    .withColumnSeparator(columnSeparator).withComments();
 
-        List<T> dtos = new ArrayList<>();
+            List<T> dtos = new ArrayList<>();
 
-        try {
-            MappingIterator<T> dtoItr = csvMapper.readerWithTypedSchemaFor(type).with(csvSchema).readValues(file);
+            try {
+                MappingIterator<T> dtoItr = csvMapper.readerWithTypedSchemaFor(type).with(csvSchema).readValues(file);
 
-            dtos = dtoItr.readAll();
-        } catch (IOException e) {
-            e.printStackTrace();
+                dtos = dtoItr.readAll();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return dtos;
         }
-
-        return dtos;
+        return null;
     }
 
 
@@ -102,25 +104,25 @@ public class Utility {
     }
 
     public static void getPdfsFromDtos(String url, String outputDir, List<DsrcInvCsvDTO> dtos, String template) {
+        if (!dtos.isEmpty()) {
+            for (DsrcInvCsvDTO dto : dtos) {
 
-        for (DsrcInvCsvDTO dto : dtos) {
+                PdfBuilderRequestDTO temp = new PdfBuilderRequestDTO();
+                temp.setTemplate(template);
+                temp.setData(dto);
 
-            PdfBuilderRequestDTO temp = new PdfBuilderRequestDTO();
-            temp.setTemplate(template);
-            temp.setData(dto);
+                ResponseEntity<byte[]> response = new RestTemplate().postForEntity(url, Collections.singletonList(temp), byte[].class);
 
-            ResponseEntity<byte[]> response = new RestTemplate().postForEntity(url, Collections.singletonList(temp), byte[].class);
-
-            if (response.getBody() != null) {
-                try (FileOutputStream stream = new FileOutputStream(outputDir + dto.getDocumentName())) {
-                    stream.write(response.getBody());
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (response.getBody() != null) {
+                    try (FileOutputStream stream = new FileOutputStream(outputDir + dto.getDocumentName())) {
+                        stream.write(response.getBody());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.err.println("Cannot create PDF, response is empty !");
                 }
-            } else {
-                System.err.println("Cannot create PDF, response is empty !");
             }
-
         }
     }
 

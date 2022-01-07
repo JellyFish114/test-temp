@@ -62,15 +62,16 @@ public class DsrcInvProcessor implements ICsvProcessor {
             System.out.println("Done. Total lines: " + sizeBeforeProcessing + ", lines after processing: " + processedDsrcDto.size() + "\n");
 
 
-
             // 5. generate the pdfs
             if (!processedDsrcDto.isEmpty()) {
+
                 // 4. generate the updated mapping_<billrunid>_<serviceCountry>.csv
                 Utility.dtosToCsv(processedDsrcDto, outputDir + "" + file.getName());
                 Utility.getPdfsFromDtos(PDF_BUILDER_URL, outputDir, processedDsrcDto, DSRC_TEMPLATE);
+                System.out.println("PDFs created.");
+            } else {
+                System.out.println("No element !");
             }
-            System.out.println("PDFs created.");
-
         }
 
         return null;

@@ -15,9 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -49,17 +47,19 @@ public class AppController {
 
         Path processedDir = Paths.get(PROCESSED_DIR);
 
-        try (Stream<Path> paths = Files.walk(processedDir)) {
-            List<Path> pathsToDelete = paths.sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        if (Files.exists(processedDir)) {
+            try (Stream<Path> paths = Files.walk(processedDir)) {
+                List<Path> pathsToDelete = paths.sorted(Comparator.reverseOrder()).collect(Collectors.toList());
 
-            for (Path path : pathsToDelete) {
-                if (!path.getFileName().toString().equals(processedDir.getFileName().toString())) {
-                    Files.deleteIfExists(path);
+                for (Path path : pathsToDelete) {
+                    if (!path.getFileName().toString().equals(processedDir.getFileName().toString())) {
+                        Files.deleteIfExists(path);
+                    }
                 }
-            }
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         List<File> foldersToProcess = new ArrayList<>();
@@ -72,6 +72,9 @@ public class AppController {
             e.printStackTrace();
         }
 
+        List<String> allowedDir = Arrays.asList(ALLOWED_DIR.replaceAll("\\s","").split(","));
+
+        System.out.println(allowedDir.contains("DE"));
         for (File file : foldersToProcess) {
 
             String folderName = file.getName();
@@ -82,7 +85,7 @@ public class AppController {
             if (folderName.equals("TRIP_DETAILS"))
                 tripDetailsProcessor.processCsv(TODO_DIR + "TRIP_DETAILS", MAPPING_PATH, PROCESSED_DIR + "TRIP_DETAILS/");
 
-            if (ALLOWED_DIR.contains(folderName))
+            if (allowedDir.contains(folderName))
                 dsrcInvProcessor.processCsv(TODO_DIR + folderName, MAPPING_PATH, PROCESSED_DIR + folderName + "/");
 
         }

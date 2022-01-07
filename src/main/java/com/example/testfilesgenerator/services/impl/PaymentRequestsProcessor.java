@@ -25,7 +25,7 @@ public class PaymentRequestsProcessor implements ICsvProcessor {
 
         List<File> filesToProcess = Utility.getCsvsFromDir(inputDir);
         List<CustomerMappingCsvDTO> mappingList = Utility.getDtoFromCsv(CustomerMappingCsvDTO.class, new File(mappingPath),COLUMN_SEPARATOR,QUOTE_CHAR);
-
+        System.out.println(mappingList.size());
         Utility.createFolderIfNotPresent(outputDir);
 
         for (File file : filesToProcess) {
@@ -49,7 +49,9 @@ public class PaymentRequestsProcessor implements ICsvProcessor {
 
             }).collect(Collectors.toList());
 
-            Utility.dtosToCsv(processedPaymentRequestsDTO, outputDir + "" + file.getName());
+            if(!processedPaymentRequestsDTO.isEmpty()) {
+                Utility.dtosToCsv(processedPaymentRequestsDTO, outputDir + "" + file.getName());
+            }
             System.out.println("Done. Total lines: " + sizeBeforeProcessing + ", lines after processing: " + processedPaymentRequestsDTO.size() + "\n");
 
         }

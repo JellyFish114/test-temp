@@ -35,6 +35,7 @@
         <p>Invoice Issue Date: ${.vars["Invoice Issue Date"]}</p>
         <p>Venice Invoice No: ${.vars["Venice Invoice No"]}</p>
       </div>
+
       <div class="customerInfo">
         <p>Your reference ${.vars["AAX Customer ID"]}</p>
         <p>Billing Period ${.vars["Billing Period from"]} - ${.vars["Billing Period to"]}</p>

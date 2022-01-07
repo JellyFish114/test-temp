@@ -53,26 +53,30 @@ public class TripDetailsProcessor implements ICsvProcessor {
 
             }).collect(Collectors.toList());
 
-            // Remove first column Billrun ID2 and write to CSV using a mixin and mapper
-            CsvMapper csvMapper = new CsvMapper();
+            if (!processedTripDetailsDTO.isEmpty()) {
 
-            csvMapper.addMixIn(DsrcTripDetailsCsvDTO.class, DsrcTripDetailsCsvMixin.class);
+                // Remove first column Billrun ID2 and write to CSV using a mixin and mapper
+                CsvMapper csvMapper = new CsvMapper();
 
-            CsvSchema csvSchema = csvMapper
-                    .typedSchemaFor(DsrcTripDetailsCsvMapper.class)//.withStrictHeaders(true)
-                    .withHeader()
-                    .withColumnSeparator(COLUMN_SEPARATOR)
-                    .withQuoteChar(QUOTE_CHAR)
-                    .withComments();
+                csvMapper.addMixIn(DsrcTripDetailsCsvDTO.class, DsrcTripDetailsCsvMixin.class);
 
-            try {
-                SequenceWriter dtoItr = csvMapper.writerWithSchemaFor(DsrcTripDetailsCsvDTO.class)
-                        .with(csvSchema)
-                        .writeValues(new File(outputDir + file.getName()));
+                CsvSchema csvSchema = csvMapper
+                        .typedSchemaFor(DsrcTripDetailsCsvMapper.class)//.withStrictHeaders(true)
+                        .withHeader()
+                        .withColumnSeparator(COLUMN_SEPARATOR)
+                        .withQuoteChar(QUOTE_CHAR)
+                        .withComments();
 
-                dtoItr.writeAll(processedTripDetailsDTO);
-            } catch (IOException e) {
-                e.printStackTrace();
+                try {
+                    SequenceWriter dtoItr = csvMapper.writerWithSchemaFor(DsrcTripDetailsCsvDTO.class)
+                            .with(csvSchema)
+                            .writeValues(new File(outputDir + file.getName()));
+
+                    dtoItr.writeAll(processedTripDetailsDTO);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             System.out.println("Done. Total lines: " + sizeBeforeProcessing + ", lines after processing: " + processedTripDetailsDTO.size() + "\n");

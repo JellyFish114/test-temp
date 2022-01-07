@@ -1,6 +1,5 @@
 package com.example.testfilesgenerator.dto;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
