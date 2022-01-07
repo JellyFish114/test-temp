@@ -30,22 +30,22 @@ Verify that your template is in the list.
 ![alt text](./2.png)
 
 ### application.properties
-* todo_dir : default is current dir
-    * the path of the input dir
-* processed_dir : default is "../GENERATED_FILES/"
-    * the path of the output dir
-* dsrc_template : default is dsrc_simple
-  * the name of the template to apply to the invoices PDFs. 
-  * it must be uploaded first on Pdf builder (see above)
-* allowed_directories : default is "BE, DE, IT"
-  * names of the invoices directories to process, separated with a ",".
-* mapping_file_path : default is current folder
-  * the location of the mapping csv
-* pdf_builder_url : default is MCE
-  * the url of pdf builder
-  * DVI url is in comment
-* app.csvConfig.columnSeparator : default is |
-  * the column separator used in the csv
-* app.csvConfig.quoteChar : default is "
-  * the quote char used in the csv
+ * todo_dir : default is current dir
+   * the path of the input dir
+ * processed_dir : default is "../GENERATED_FILES/"
+   * the path of the output dir
+ * dsrc_template : default is dsrc_simple
+   * the name of the template to apply to the invoices PDFs.
+   * it must be uploaded first on Pdf builder (see above)
+ * allowed_directories : default is "BE, DE, IT"
+   * names of the invoices directories to process, separated with a ",". 
+ * mapping_file_path : default is current folder 
+   * the location of the mapping csv
+ * pdf_builder_url : default is MCE 
+   * the url of pdf builder
+   * DVI url is in comment
+ * app.csvConfig.columnSeparator : default is |
+   * the column separator used in the csv
+ * app.csvConfig.quoteChar : default is "
+   * the quote char used in the csv
 
